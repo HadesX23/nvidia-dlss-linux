@@ -1,0 +1,44 @@
+# OptiScaler.ini baseline for RTX 3060 Ti 8 GB
+# The installer merges these keys into the existing file; it does not replace
+# comments or unrelated settings. Restart the game after changes.
+
+[Upscalers]
+Dx12Upscaler=dlss
+Dx11Upscaler=dlss_12
+VulkanUpscaler=dlss
+
+[DlssNr]
+Enabled=true
+Precision=0
+Passes=1
+WorkingScale=1.0
+FinishedPicture=false
+DeferredDLSS=auto
+UnlockPasses=false
+AutoCapture=true
+RunBeforeSR=auto
+ResidualAcrossRR=false
+ResidualFG=false
+
+[FrameGen]
+External=true
+Enabled=true
+FGInput=auto
+FGOutput=dlssg
+FGNvngxReplacement=None
+
+[DLSSG]
+AmpereMfgUnlock=true
+AmpereMfgMaxFrames=3
+AmpereMfgKernelImage=ptx
+AmpereMfgHardwareBilinear=false
+InterpolationCount=auto
+UseGamesReflexMarkers=auto
+
+[DLSS]
+Enabled=auto
+RenderPresetOverride=false
+
+[fakenvapi]
+UseFakenvapi=auto
+ForceReflex=auto

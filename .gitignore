@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+.venv/
+*.log
+
+# Never commit proprietary runtimes or game binaries.
+*.dll
+*.exe
+*.zip
+*.7z
+*.tar.gz
+*.tar.xz
