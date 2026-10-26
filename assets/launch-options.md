@@ -2,6 +2,10 @@
 
 Use one line per game. `%command%` must stay at the end.
 
+## Steam / Proton (primary)
+
+Steam games need no `--prefix`: `scan` -> `plan <appid>` -> `install <appid>`, then paste one printed line into Steam > Properties > Launch Options. `%command%` must be last. Proton-CachyOS or Proton-GE is recommended; Valve's default Proton may lack DXVK-NVAPI/NGX.
+
 ## Portable / non-Steam games
 
 Portable games have no `%command%`. Use the command printed by `plan`/`install`:

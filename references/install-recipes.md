@@ -11,6 +11,16 @@ All paths assume `$HOME/Software/NVIDIA` and the helper `assets/nvidia-stack.py`
 5. Check `pfx/drive_c/windows/system32/nvngx.dll` and `nvapi64.dll`. If missing, fix Proton or prepare plain Wine before installing mods.
 6. `plan` and `install` run the upstream preflight automatically (1 h cache). Use `--refresh` to force it, `--no-update-check` to skip. Treat update warnings as review items, not automatic replacements.
 
+### Steam / Proton
+
+```bash
+python3 assets/nvidia-stack.py scan
+python3 assets/nvidia-stack.py plan <appid> --fg 2x --nr on
+python3 assets/nvidia-stack.py install <appid> --fg 2x --nr on
+```
+
+Do not pass `--prefix`. The helper reads `appmanifest_<appid>.acf`, searches every library, and uses `compatdata/<appid>/pfx`. If the game has never been launched, start it once with Proton so the prefix exists. Then paste the printed line into Steam > Properties > Launch Options.
+
 ### Portable folders
 
 ```bash

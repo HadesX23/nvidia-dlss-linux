@@ -2,6 +2,8 @@
 
 Portable releases are usually pre-installed Windows folders, not Steam appids and not installers. The user extracts the archive and runs an `.exe` directly, often `bin/x64/<Game>.exe` or `<Game>/Binaries/Win64/<Game>.exe`. Treat every such build as untrusted: it may contain a crack, an online fix, a repack launcher, or missing runtimes. This skill only supports single-player use and never downloads or repairs cracks.
 
+**Steam games are not handled here.** Use `scan` and `plan <appid>`; the helper resolves `compatdata/<appid>/pfx` automatically. This file is only for portable/non-Steam folders.
+
 ## Detect the game
 
 ```bash

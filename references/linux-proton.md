@@ -19,6 +19,10 @@ The prefix may live in a different library than the game. Search every library. 
 
 Wine resolves `Z:` to `/`. A game at `/mnt/games/Game/game.exe` is `Z:\mnt\games\Game\game.exe` inside the prefix.
 
+## Steam workflow
+
+For Steam, run `scan` to get the appid, then `plan <appid>`. Do not pass `--prefix`; the helper searches every library, reads `appmanifest_<appid>.acf`, and selects `compatdata/<appid>/pfx`. Install with `install <appid> ...`, then put the printed options in Steam. Use `--prefix` only for a custom or non-Steam prefix.
+
 ## Portable games (no Steam appid)
 
 Portable releases are pre-installed folders, often with the game at `bin/x64/<Game>.exe` or `Binaries/Win64/<Game>.exe`. There is no `appmanifest` and no installer. Pass the folder or `.exe` directly:

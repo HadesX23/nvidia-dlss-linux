@@ -55,7 +55,23 @@ python3 assets/nvidia-stack.py plan <appid-or-name>
 python3 assets/nvidia-stack.py install <appid-or-name> --route optiscaler --fg 2x --nr on
 ```
 
-Portable folder or executable:
+## Steam + Proton
+
+Steam games are the primary path. The helper reads `libraryfolders.vdf` and
+`appmanifest_<appid>.acf`, finds the game and its `compatdata/<appid>/pfx`, and
+does not need `--prefix`.
+
+```bash
+python3 assets/nvidia-stack.py scan
+python3 assets/nvidia-stack.py plan 12345
+python3 assets/nvidia-stack.py install 12345 --route optiscaler --fg 2x --nr on
+```
+
+Put the printed line in Steam > Properties > Launch Options. Prefer
+Proton-CachyOS or Proton-GE; Valve's default Proton may not expose
+DXVK-NVAPI/NGX. `--prefix` is only for portable or custom prefixes.
+
+### Portable folder or executable
 
 ```bash
 python3 assets/nvidia-stack.py plan /path/to/Game --prefix /path/to/prefix
