@@ -26,8 +26,9 @@ TFLOPS. Treat these as compute benchmarks, not game FPS.
 - Linux, kernel headers, initramfs tooling, and a reboot.
 - An Ampere GA102/GA103/GA104/GA106 card. Turing/Ada forks exist but are not
   part of 1.1.0 and are not covered here.
-- Secure Boot: the module is unsigned; sign it or disable Secure Boot, or it
-  will not load.
+- Secure Boot: the project does not sign the module. A kernel that enforces
+  module signatures may reject it; sign it with an enrolled MOK key, or disable
+  Secure Boot. Check `mokutil --sb-state` and the kernel log.
 - Hibernation is not covered. Suspend/resume is supported; use
   `gpu_unlock.resume=0` to disable the resume path.
 
@@ -77,7 +78,7 @@ boot entry before changing the command line.
 ## Risks
 
 - Kernel module and initramfs changes; a bad entry can prevent boot.
-- Unsigned module/Secure Boot conflict.
+- Unsigned module; Secure Boot/Module Signature Enforcement may reject it.
 - Possible heat/power changes and workload-specific instability.
 - Proprietary firmware remains under NVIDIA terms; the module/packaging is
   GPL-2.0-only.

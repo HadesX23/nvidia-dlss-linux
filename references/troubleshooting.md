@@ -132,7 +132,7 @@ If the game uses EAC/BattlEye, remove all proxies and ReShade/OptiScaler files a
 
 - Not loaded: check `gpu_unlock.targets=` in `/proc/cmdline`; the module is opt-in.
 - Missing after install: `sudo make install`, regenerate the initramfs, reboot.
-- Secure Boot: the unsigned module will not load; sign it or disable Secure Boot.
+- Secure Boot: may reject the unsigned module; sign/enroll it or disable Secure Boot; check `mokutil --sb-state`.
 - Boot failure: boot the previous entry, remove `gpu_unlock.targets=`, regenerate.
 - Hibernation is not covered; suspend/resume is supported.
 - No FPS gain expected: compute unlock, not DLSS/tensor cores.

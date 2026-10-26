@@ -108,8 +108,9 @@ sudo make install
 ```
 
 Read `references/gpu-unlock.md` before enabling it. It changes the initramfs and
-boot command line, requires an unsigned kernel module (Secure Boot must be
-handled), and does not cover hibernation. `doctor` detects it; `update-check`
+boot command line, and ships an unsigned kernel module. Secure Boot may reject
+it unless you sign it with an enrolled MOK key; check `mokutil --sb-state`.
+It does not cover hibernation. `doctor` detects it; `update-check`
 tracks the latest commit because the project has no releases or tags. `plan`
 and `install` never enable it.
 
