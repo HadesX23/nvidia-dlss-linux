@@ -128,6 +128,15 @@ If the game uses EAC/BattlEye, remove all proxies and ReShade/OptiScaler files a
 | Upstream preflight fails | Network/rate limit; continue with the cached check or `--no-update-check` |
 | `OnlineFix` present | Stop. Do not install proxies or ReShade. |
 
+## GPU Unlock (optional)
+
+- Not loaded: check `gpu_unlock.targets=` in `/proc/cmdline`; the module is opt-in.
+- Missing after install: `sudo make install`, regenerate the initramfs, reboot.
+- Secure Boot: the unsigned module will not load; sign it or disable Secure Boot.
+- Boot failure: boot the previous entry, remove `gpu_unlock.targets=`, regenerate.
+- Hibernation is not covered; suspend/resume is supported.
+- No FPS gain expected: compute unlock, not DLSS/tensor cores.
+
 ## Rollback
 
 ```bash

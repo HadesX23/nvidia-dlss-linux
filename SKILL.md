@@ -9,7 +9,7 @@ metadata:
 
 ## Activation Contract
 
-Use for a single-player game on CachyOS/Omarchy that needs DLSS Super Resolution, DLAA, Ray Reconstruction, Reflex, Frame Generation (including modded x6), or DLSS 5 Neural Rendering under Steam Proton, Wine, UMU, or native Vulkan. Steam: `scan` then `plan <appid>`; the helper finds the library and `compatdata/<appid>/pfx`. Pre-installed portable Windows builds use a folder or `.exe` plus `--prefix`. Preflight runs on plan/install (1 h cache; `--refresh` forces). Target: RTX 3060 Ti 8 GB.
+Use for a single-player game on CachyOS/Omarchy that needs DLSS Super Resolution, DLAA, Ray Reconstruction, Reflex, Frame Generation (including modded x6), or DLSS 5 Neural Rendering under Steam Proton, Wine, UMU, or native Vulkan. Steam: `scan` then `plan <appid>`; the helper resolves `compatdata/<appid>/pfx`. Pre-installed portable Windows builds use a folder or `.exe` plus `--prefix`. Preflight runs on plan/install (1 h cache; `--refresh` forces). Target: RTX 3060 Ti 8 GB.
 
 Do not use on anti-cheat multiplayer, macOS, or to promise path tracing where the engine lacks it.
 
@@ -21,10 +21,11 @@ Do not use on anti-cheat multiplayer, macOS, or to promise path tracing where th
 - Inspect API, exe, prefix, and existing mods. Back up every file and write a rollback manifest before copying.
 - Run the upstream preflight on every game. Warn on updates; never silently replace the neural OptiScaler fork or leaked NR DLL.
 - Path tracing is native-only or RTX Remix. DLSS 5 NR is post-processing, not PT.
-- RTX 3060 Ti: native SR/RR/DLAA/Reflex and NR are usable; native FG/MFG is not. Label x6 as modded (SM86 kernels, FSR FG Combo, or Live Flow).
+- RTX 3060 Ti: SR/RR/DLAA/Reflex/NR usable; native FG/MFG no. Label x6 modded (SM86, Combo, Live Flow).
 - 6x only if the game's DLSS-G plugin supports it; 0.4.0 on Linux is Windows/D3D12 with an open `Missing cuInit` issue; 2x-4x PTX is reliable.
+- GPU Unlock is optional, kernel-level, and not DLSS; read `references/gpu-unlock.md` before enabling.
 - NR: `Passes=1`, 1080p/1440p, watch 8 GB VRAM; NR and FG are not substitutes for lower textures or resolution.
-- Prefer Proton-CachyOS (driver `nvngx.dll`, DXVK-NVAPI). Keep the neural OptiScaler fork; NPI is prefix-local, not a host driver change.
+- Prefer Proton-CachyOS; keep the neural OptiScaler fork; NPI is prefix-local.
 
 ## Decision Gates
 
@@ -59,6 +60,7 @@ Report: appid or portable id; API, exe, prefix, runner (Steam Proton vs portable
 - `references/hardware-matrix.md` — RTX 3060 Ti capability and VRAM limits.
 - `references/linux-proton.md` — Steam/Proton prefix, NGX, DXVK-NVAPI, Vulkan layer.
 - `references/portable-games.md` — portable builds, Wine vs Proton, prefix setup, launch.
+- `references/gpu-unlock.md` — optional kernel module; compute only, not DLSS.
 - `references/install-recipes.md` — exact per-route recipes and INI keys.
 - `references/toolchain.md` — local payloads, versions, update checks.
 - `references/upstream-watch.md` — release URLs and version status.

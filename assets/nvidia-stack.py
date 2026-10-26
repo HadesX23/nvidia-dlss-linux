@@ -1032,6 +1032,15 @@ def cmd_doctor(args: argparse.Namespace) -> int:
     add("Steam libraries", "PASS" if libs else "WARN", f"{len(libs)} found")
     for lib in libs[:6]:
         add(f"  library", "INFO", str(lib))
+    gpu_unlock = gpu_unlock_status()
+    if gpu_unlock.startswith("loaded (targets"):
+        add("GPU Unlock (optional)", "PASS", gpu_unlock)
+    elif gpu_unlock.startswith("loaded"):
+        add("GPU Unlock (optional)", "WARN", "loaded without gpu_unlock.targets=; not active")
+    elif gpu_unlock.startswith("installed"):
+        add("GPU Unlock (optional)", "WARN", "installed but not loaded; add gpu_unlock.targets=... and reboot")
+    else:
+        add("GPU Unlock (optional)", "INFO", "not installed; optional compute unlock, not DLSS")
 
     if args.json:
         print(json.dumps([{"check": n, "status": s, "detail": d} for n, s, d in checks], indent=2))
@@ -1238,6 +1247,7 @@ REPOS = [
     ("RTX40MFG-Unlock", "dashdogy/RTX40MFG-Unlock", "not bundled"),
     ("DLSS Enabler", "artur-graniszewski/DLSS-Enabler", "not bundled"),
     ("DXVK-NVAPI", "jp7677/dxvk-nvapi", "via Proton"),
+    ("GPU Unlock", "Zagitta/gpu-unlock", "not installed"),
 ]
 
 
@@ -1251,6 +1261,23 @@ UPDATE_CACHE = Path(os.environ.get("XDG_CACHE_HOME", Path.home() / ".cache")) / 
 UPDATE_TTL = 3600
 
 
+def gpu_unlock_status() -> str:
+    """Report the optional gpu-unlock kernel module state without changing it."""
+    loaded = Path("/sys/module/gpu_unlock").exists()
+    opted = False
+    try:
+        opted = "gpu_unlock.targets=" in Path("/proc/cmdline").read_text(encoding="utf-8", errors="replace")
+    except OSError:
+        pass
+    if loaded:
+        return "loaded (targets set)" if opted else "loaded (no targets option)"
+    if which("modinfo"):
+        proc = run(["modinfo", "gpu_unlock"], timeout=10)
+        if proc.returncode == 0:
+            return "installed (not loaded)"
+    return "not installed"
+
+
 def fetch_update_rows() -> list[dict[str, str]]:
     rows: list[dict[str, str]] = []
     helper = which("dlssnr-helper")
@@ -1260,13 +1287,24 @@ def fetch_update_rows() -> list[dict[str, str]]:
         dlssnr_local = "installed (layer manifest present)"
     elif helper:
         dlssnr_local = "helper present; layer manifest missing"
+    gpu_local = gpu_unlock_status()
     for name, repo, local in REPOS:
         if name == "DLSS5VKLayer":
             local = dlssnr_local
+        elif name == "GPU Unlock":
+            local = gpu_local
         latest = "?"
         published = "?"
         try:
-            if name == "NVIDIA Profile Inspector":
+            if name == "GPU Unlock":
+                commits = github_json(f"https://api.github.com/repos/{repo}/commits?per_page=1")
+                if isinstance(commits, list) and commits:
+                    sha = str(commits[0].get("sha", ""))[:7]
+                    latest = f"commit {sha}"
+                    published = commits[0].get("commit", {}).get("committer", {}).get("date", "?")
+                else:
+                    latest = "?"
+            elif name == "NVIDIA Profile Inspector":
                 releases = github_json(f"https://api.github.com/repos/{repo}/releases?per_page=5")
                 stable = next((r for r in releases if not r.get("prerelease")), None)
                 pre = next((r for r in releases if r.get("prerelease")), None)
@@ -1314,6 +1352,8 @@ def preflight_updates(args: argparse.Namespace) -> None:
         return
     changed = []
     for r in rows:
+        if r.get("name") == "GPU Unlock" and r.get("local") == "not installed":
+            continue
         latest = r.get("latest", "?")
         local = r.get("local", "?")
         if latest == "?" or latest.startswith("error:") or latest == local:

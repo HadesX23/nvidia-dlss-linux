@@ -68,6 +68,7 @@ The fork is newer than upstream OptiScaler v0.9.4 for this use case. Do not repl
 | ReShade | 6.8.0 | bundled | rolling upstream |
 | RenoDX | rolling | bundled addons | rolling upstream |
 | DXVK-NVAPI | `jp7677/dxvk-nvapi` | via Proton | verify repo before use |
+| GPU Unlock | 1.1.0, commit 6081407 (2026-10-26) | not bundled | optional kernel module; no releases/tags |
 
 ## Update checks
 

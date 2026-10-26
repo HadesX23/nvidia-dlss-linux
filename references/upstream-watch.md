@@ -28,6 +28,7 @@ Updates are advisory. The helper never silently replaces the neural OptiScaler f
 | OptiScaler upstream | https://github.com/optiscaler/OptiScaler/releases | v0.9.4 (2026-07-18) | reference; do not replace neural fork |
 | DLSS Enabler | https://github.com/artur-graniszewski/DLSS-Enabler/releases | v0.9.4 (2026-07-19) | Combo needs a headless/ASI build; 0.9.4 does not ship `dlss-enabler-headless.dll` |
 | DXVK-NVAPI | https://github.com/jp7677/dxvk-nvapi/releases | v0.9.2 (2026-05-12) | NVAPI/NGX bridge |
+| GPU Unlock | https://github.com/Zagitta/gpu-unlock | commit 6081407 (2026-10-26) | optional kernel-level compute unlock; not DLSS |
 | ReShade | https://reshade.me | 6.8.0 bundled | addon build |
 | RenoDX | https://github.com/clshortfuse/renodx | rolling | DLSS5 addons |
 
@@ -40,6 +41,7 @@ Updates are advisory. The helper never silently replaces the neural OptiScaler f
 - **Bundled `dlssg_sm86` is 0.2.3 and caps at 4x.** 0.4.0 is a standalone DLSS-G replacement (`version.dll` + `dlssg_sm86/`), not a drop-in OptiScaler plugin. For 6x, use Combo or install 0.4.0 separately with OptiScaler FG disabled. 0.4.0 is Windows/D3D12 and has an open Proton `Missing cuInit` issue; 6x also requires the game's plugin to support it. Do not force 6x in a 4x-only game.
 - **Streamline 2.14.16 is newer than the bundled 2.14.1.** Update only when a game or DLSS-G path needs it; keep the old `sl.*` set.
 - **ReShade/RenoDX are rolling.** File dates and commit hashes, not release tags, are the version.
+- **GPU Unlock has no releases/tags.** `update-check` reads the latest commit; update with `git pull && sudo make install` and reboot. It is optional and never installed by `plan`/`install`.
 - **NPI on Linux is prefix-local.** A newer NPI does not mean newer host driver profiles.
 
 ## Update commands

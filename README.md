@@ -93,6 +93,26 @@ previous files.
 cached for one hour. Use `--refresh` to force a fresh check or
 `--no-update-check` to skip it.
 
+## Optional: GPU Unlock (compute, not DLSS)
+
+[`Zagitta/gpu-unlock`](https://github.com/Zagitta/gpu-unlock) is an optional Linux
+kernel module that unlocks FP/BF16 FMA issue rate on GA102/GA103/GA104/GA106.
+The RTX 3060 Ti is GA104. It does **not** add DLSS, tensor cores, frame
+generation, or path tracing, and it is not a guaranteed FPS win.
+
+```bash
+git clone https://github.com/Zagitta/gpu-unlock
+cd gpu-unlock
+sudo make install
+# add gpu_unlock.targets=all to the kernel command line, then reboot
+```
+
+Read `references/gpu-unlock.md` before enabling it. It changes the initramfs and
+boot command line, requires an unsigned kernel module (Secure Boot must be
+handled), and does not cover hibernation. `doctor` detects it; `update-check`
+tracks the latest commit because the project has no releases or tags. `plan`
+and `install` never enable it.
+
 ## RTX 3060 Ti 8 GB notes
 
 - Native DLSS SR, RR, DLAA, Reflex and DLSS 5 NR are usable.
